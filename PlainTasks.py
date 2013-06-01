@@ -7,6 +7,7 @@ import sublime_plugin
 import webbrowser
 from datetime import datetime
 
+SYNTAX_FILE_NAME = 'Packages/Donster2kPlainTask/PlainTasks.tmLanguage'
 
 class PlainTasksBase(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -14,13 +15,15 @@ class PlainTasksBase(sublime_plugin.TextCommand):
         self.done_tasks_bullet = self.view.settings().get('done_tasks_bullet')
         self.canc_tasks_bullet = self.view.settings().get('canc_tasks_bullet')
         self.before_tasks_bullet_spaces = ' ' * self.view.settings().get('before_tasks_bullet_margin')
-        self.date_format = self.view.settings().get('date_format')
         if self.view.settings().get('done_tag'):
             self.done_tag = "@done"
             self.canc_tag = "@cancelled"
         else:
             self.done_tag = ""
             self.canc_tag = ""
+        self.extensions = self.view.settings().get('extensions')
+        self.date_format_short = self.view.settings().get('date_format_short')
+        self.date_format = self.view.settings().get('date_format')
         self.runCommand(edit)
 
 
@@ -179,7 +182,7 @@ class PlainTasksArchiveCommand(PlainTasksBase):
 class PlainTasksNewTaskDocCommand(sublime_plugin.WindowCommand):
     def run(self):
         view = self.window.new_file()
-        view.set_syntax_file('Packages/PlainTasks/PlainTasks.tmLanguage')
+        view.set_syntax_file(SYNTAX_FILE_NAME)
 
 
 class PlainTasksOpenUrlCommand(sublime_plugin.TextCommand):
@@ -221,3 +224,58 @@ class PlainTasksOpenUrlCommand(sublime_plugin.TextCommand):
             webbrowser.open_new_tab(strUrl)
         else:
             sublime.status_message("Looks like there is nothing to open")
+
+
+
+class PlainTasksNewDayTaskDocCommand(PlainTasksBase):
+    """Creates a new todo file based on the current open file. Archived tasks are ignored.
+        If the current view isn't a TODO, a new blank one view will be created."""
+    def run(self, edit):
+
+        #If the current view is a task file, create a new file based on it.
+        if (self.view.settings().get('syntax') == SYNTAX_FILE_NAME):
+            self.createNewDayTaskDocumentBasedOnCurrent()
+        else:
+            self.createEmptyNewDayTaskDocument()
+
+    def createEmptyNewDayTaskDocument(self):
+        #Create the new view
+        new_todo_file = self.view.window().new_file()
+        new_todo_file.set_syntax_file(SYNTAX_FILE_NAME)
+
+        extension = new_todo_file.settings().get('default_new_day_extension')
+        date_format_short = new_todo_file.settings().get('date_format_short')
+
+        # Assign a name to it, but the user will have to manually save the file...
+        #new_todo_file.set_name(datetime.now().strftime(date_format_short + "." + extension))
+        new_todo_file.set_name(datetime.now().strftime("%y-%m-%d" + "." + "task"))
+
+        return new_todo_file
+
+    def createNewDayTaskDocumentBasedOnCurrent(self):
+        #Create an empty view.
+        new_task_view = self.createEmptyNewDayTaskDocument()
+
+        #Get all of the data before the archive section.
+        archive_pos = self.view.find('Archive:', 0, sublime.LITERAL)
+
+        edit = new_task_view.begin_edit()
+
+        #region = sublime.Region(0, archive_pos)
+
+        lines = self.view.lines(sublime.Region(0, archive_pos.end()))
+
+        #new_task_view.insert(edit, 0, new_task_view.substr(lines))
+        new_task_view.insert(edit, 0, '\n'.join(self.view.substr(line) for line in lines) + '\n')
+
+        new_task_view.end_edit(edit)
+        
+
+
+
+
+
+
+
+
+        
