@@ -1,3 +1,8 @@
+Donster TODO:
+ ☐ Add time spent for a task. Would be good to be able to log different blocks of time spent on a particular task. Perhaps a ctrl+shift+t to add in a time field for a task.
+ ☐ Auto archive before creating a new day.
+ --- ✄ -------------------------- ✄ -----------------------
+
 TODO:
  ☐ make links clickable and highlighted @feature
  ☐ use control+shift+A to only archive the first level tasks (or current level of indent) @feature

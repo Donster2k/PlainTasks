@@ -7,7 +7,8 @@ import sublime_plugin
 import webbrowser
 from datetime import datetime
 
-SYNTAX_FILE_NAME = 'Packages/Donster2kPlainTask/PlainTasks.tmLanguage'
+SYNTAX_FILE_NAME = r'Packages/Donster2kPlainTasks/PlainTasks.tmLanguage'
+
 
 class PlainTasksBase(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -226,7 +227,6 @@ class PlainTasksOpenUrlCommand(sublime_plugin.TextCommand):
             sublime.status_message("Looks like there is nothing to open")
 
 
-
 class PlainTasksNewDayTaskDocCommand(PlainTasksBase):
     """Creates a new todo file based on the current open file. Archived tasks are ignored.
         If the current view isn't a TODO, a new blank one view will be created."""
@@ -243,8 +243,8 @@ class PlainTasksNewDayTaskDocCommand(PlainTasksBase):
         new_todo_file = self.view.window().new_file()
         new_todo_file.set_syntax_file(SYNTAX_FILE_NAME)
 
-        extension = new_todo_file.settings().get('default_new_day_extension')
-        date_format_short = new_todo_file.settings().get('date_format_short')
+        #extension = new_todo_file.settings().get('default_new_day_extension')
+        #date_format_short = new_todo_file.settings().get('date_format_short')
 
         # Assign a name to it, but the user will have to manually save the file...
         #new_todo_file.set_name(datetime.now().strftime(date_format_short + "." + extension))
@@ -269,13 +269,3 @@ class PlainTasksNewDayTaskDocCommand(PlainTasksBase):
         new_task_view.insert(edit, 0, '\n'.join(self.view.substr(line) for line in lines) + '\n')
 
         new_task_view.end_edit(edit)
-        
-
-
-
-
-
-
-
-
-        

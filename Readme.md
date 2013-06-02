@@ -5,8 +5,9 @@ A modified version of the PlainTasks todo-list plugin for Sublime Text (2 & 3) e
 
 Open yesterdays todo file and use **`⌘ + shift + i`** to create the new todo list file for today.
 
+To install, copy this package files into: Packages/Donster2kPlainTasks/
 
-Please refer to the [original plugin](https://github.com/aziz/PlainTasks) for further information on installation and use.
+Please refer to the [original plugin](https://github.com/aziz/PlainTasks) for information on the original version of PlainTasks and how to use the standarnd PlainTasks commands.
 
 
 ## License
