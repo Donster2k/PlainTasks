@@ -248,7 +248,7 @@ class PlainTasksNewDayTaskDocCommand(PlainTasksBase):
 
         # Assign a name to it, but the user will have to manually save the file...
         #new_todo_file.set_name(datetime.now().strftime(date_format_short + "." + extension))
-        new_todo_file.set_name(datetime.now().strftime("%y-%m-%d" + "." + "task"))
+        new_todo_file.set_name(datetime.now().strftime("%y-%m-%d-%A" + "." + "tasks"))
 
         return new_todo_file
 
