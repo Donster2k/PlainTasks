@@ -2,6 +2,8 @@ Donster TODO:
  ☐ Add time spent for a task. Would be good to be able to log different blocks of time spent on a particular task. Perhaps a ctrl+shift+t to add in a time field for a task.
  ☐ Auto archive before creating a new day.
  ☐ Add an invalidate command & tag for a task.
+ ☐ P1 - Add an In-Progress command
+ ☐ Fix when no Archive section is available
  --- ✄ -------------------------- ✄ -----------------------
 
 TODO:
